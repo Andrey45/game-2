@@ -1,68 +1,117 @@
 import { left, right } from './move.js';
 
 let img = new Image();
-let personImg = new  Image();
+img.src = './bac.jpg';
+
+
 let backgroundOffset;
 let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d");
 
-function Img() {
-    img.src = './background-2.jpg';
+let frame = 190;
 
-    img.onload = () => {
-        context.drawImage(img, 0, 0, img.width, img.height)
+class Sprite {
+    constructor(options) {
+        this.ctx = options.ctx;
+
+        this.image = options.image;
+
+        this.frameIndex = 0;
+        this.tickCount = 0;
+        this.ticksPerFrame = options.ticksPerFrame || 0;
+        this.numberOfFrames = options.numberOfFrames || 1;
+
+        this.width = options.width;
+        this.height = options.height;
+
+        this.start();
+    }
+
+    update() {
+        this.tickCount++;
+
+        if (this.tickCount > this.ticksPerFrame) {
+            this.tickCount = 0;
+            if (this.frameIndex < this.numberOfFrames - 1) {
+                this.frameIndex++;
+            } else {
+                this.frameIndex = 0;
+            }
+        }
+    }
+
+    render() {
+        console.log(backgroundOffset)
+        context.translate(-backgroundOffset, 0);
+        context.drawImage(img, 0, 0);
+        context.drawImage(img, img.width, 0);
+        context.translate(backgroundOffset, 0);
+        this.ctx.drawImage(this.image, this.frameIndex * frame, 0, frame, this.height, position(), person.y, frame, this.height)
+    }
+
+    start() {
+        let loop = () => {
+            this.update();
+            this.render();
+
+            window.requestAnimationFrame(loop);
+        }
+
+        window.requestAnimationFrame(loop);
     }
 }
-function setBackgroundOffset() {
-    var offset = backgroundOffset + 10;
 
-    if (offset > 0 && offset < img.width) {
-        backgroundOffset = offset;
-    }
-    else {
-        backgroundOffset = 0;
-    }
-}
-function personInit() {
+let coinImage = new Image();
+coinImage.src = './tim.png';
 
-    personImg.src = person.img;
+let sprite = new Sprite({
+    ctx: canvas.getContext('2d'),
+    image: coinImage,
+    width: coinImage.width,
+    height: coinImage.height,
+    numberOfFrames: 10,
+    ticksPerFrame: 4,
+});
 
-    personImg.onload = () => {
-        console.log(person.x);
-        //if (person.x >= img.width/2 || person.x === img.width/2){
-            context.translate(-backgroundOffset, 0);
-            context.drawImage(img, 0, 0);
-            context.drawImage(img, img.width, 0);
-            context.translate(backgroundOffset, 0);
-            context.drawImage(personImg, position(),person.y, 150, 150)
-        // } else {
-        //     context.drawImage(img, 0, 0, img.width, img.height)
-        //     context.drawImage(personImg, person.x,person.y, 150, 150)
-        // }
+function setBackgroundOffset(move) {
+    let offset;
+    switch (move) {
+        case 'right' :
+            offset = backgroundOffset + 100;
+            (offset > 0 && offset < img.width) ? backgroundOffset = offset : backgroundOffset = 0;
+            break
+        case 'left' :
+            offset = backgroundOffset - 100;
+            (offset > 0 && offset < img.width) ? backgroundOffset = offset : backgroundOffset = 0;
+            break
     }
 }
-
+document.addEventListener('keyup', () => {
+    frame = 190;
+    coinImage.src = './tim.png'
+});
 function startgame(){
-    Img();
     canvas.width = img.width;
     canvas.height = img.height;
-    personInit();
 }
 function position() {
-    if(person.x < 400){
+    if(person.x < window.innerWidth/2-80){
         return person.x
     } else {
-        return 400
+        return window.innerWidth/2-80
     }
 }
 export function moveLeft(x){
     person.x = x;
-    context.save()
-    setBackgroundOffset()
-    personInit()
-    context.restore()
+    coinImage.src = './moveLeft.png';
+    setBackgroundOffset('left');
 }
-
+export function moveRight(x){
+    person.x = x;
+    frame = 200;
+    coinImage.src = './moveRight.png';
+    setBackgroundOffset('right');
+}
 let person = {
     x: 20,
     y: 400,
@@ -71,7 +120,6 @@ let person = {
     img: './timon.png'
 };
 
-left(person)
-console.log(`dddd = ${person.x}`)
+left(person);
 right(person);
 startgame();
