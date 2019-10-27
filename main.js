@@ -1,33 +1,6 @@
 import { move, moveUp } from './js/move.js';
 import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState } from  './js/constants.js'
 
-(function(){
-
-    const secs = document.getElementById('time');
-    let S = '00', M = '00';
-
-    setInterval(function(){
-        //Плюсик перед строкой преобразует его в число
-        S = +S +1;
-        //Если результат меньше 10, прибавляем впереди строку '0'
-        if( S < 10 ) { S = '0' + S; }
-        if( S === 60 ) {
-            S = '00';
-            //Как только секунд стало 60, добавляем +1 к минутам
-            M = +M + 1;
-            //Дальше то же самое, что и для секунд
-            if( M < 10 ) { M = '0' + M; }
-            if( M === 60 ) {
-                //Как только минут стало 60, добавляем +1 к часам.
-                M = '00';
-            }
-        }
-        secs.innerText = M+':'+S
-        //Тикает всё через одну функцию, раз в секунду.
-    },1000);
-
-})();
-
 let frame = 190;
 
 class Sprite {
@@ -98,7 +71,7 @@ class Sprite {
         }
     }
     render() {
-        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, this.personX(), person.y, frame, spritePerson.height)
+        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, this.personX() + person.jumpHeight, person.y, frame, spritePerson.height)
     }
     start() {
         let loop = () => {

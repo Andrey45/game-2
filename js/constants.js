@@ -4,7 +4,8 @@ let person = {
     y: 400,
     hp: 100,
     glass: 0,
-    time: 0
+    time: 0,
+    jumpHeight: 0
 };
 
 let obstacle = {
