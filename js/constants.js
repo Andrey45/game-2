@@ -1,5 +1,6 @@
 localStorage.setItem('name', 'ddddd');
 localStorage.setItem('person', 'pumba');
+
 // ПЕРСОНАЖ
 let person = {
     x: 20,
@@ -30,7 +31,7 @@ let obstacle = {
 let worms = {
     worms: obstacle.obstacle1 - 50,
     y: 290
-}
+};
 
 let moveState = {state: 'stop'};
 // СПРАЙТ
@@ -47,7 +48,7 @@ let canvas = document.getElementById("canvas"),
 img.onload = () => {
     canvas.width = img.width;
     canvas.height = img.height;
-}
+};
 // TIMER
 export {
     img, winWidth,
@@ -56,4 +57,4 @@ export {
     spritePerson,
     obstacle,
     moveState
-}
+};
