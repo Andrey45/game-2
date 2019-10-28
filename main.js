@@ -22,18 +22,18 @@ class Sprite {
     personX(){
         for (let item in obstacle){
             if(person.x < winWidth){
-                if(person.x >= obstacle[item]-200){
+                if(person.x >= obstacle[item] - frame){
                     this.move(false);
-                    return obstacle[item]-200;
+                    return obstacle[item] - frame;
                 } else {
                     this.move(true);
                     return person.x
                 }
             } else if (person.x > winWidth){
                 this.move(true);
-                if(person.x >= obstacle[item]-200){
+                if(person.x >= obstacle[item] - frame){
                     this.move(false);
-                    return obstacle[item]-200;
+                    return obstacle[item] - frame;
                 } else {
                     this.move(true);
                     return winWidth
@@ -50,7 +50,7 @@ class Sprite {
             for (let item in obstacle){
                 context.fillRect(obstacle[item], 490, 100, 100);
             }
-            context.styleSheets = 'reg';
+            context.styleSheets = '#964b00';
             context.translate(backgroundOffset, 0);
         } else if(move){
             context.translate(-backgroundOffset, 0);
@@ -59,7 +59,7 @@ class Sprite {
             for (let item in obstacle){
                 context.fillRect(obstacle[item], 490, 100, 100);
             }
-            context.styleSheets = 'reg';
+            context.styleSheets = '#964b00';
             context.translate(backgroundOffset, 0);
         } else if (moveState.state === 'stop'){
             context.drawImage(img, 0, 0);
@@ -67,11 +67,18 @@ class Sprite {
             for (let item in obstacle){
                 context.fillRect(obstacle[item], 490, 100, 100);
             }
-            context.styleSheets = 'reg';
+            context.styleSheets = '#964b00';
         }
     }
     render() {
-        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, this.personX() + person.jumpHeight, person.y, frame, spritePerson.height)
+        this.personX()
+        context.drawImage(img, 0, 0);
+        context.drawImage(img, img.width, 0);
+        for (let item in obstacle){
+            context.fillRect(obstacle[item], 490, 100, 100);
+        }
+        console.log(person.y)
+        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x + person.jumpHeight, person.y, frame, spritePerson.height)
     }
     start() {
         let loop = () => {
@@ -82,9 +89,7 @@ class Sprite {
         window.requestAnimationFrame(loop);
     }
 }
-function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-}
+
 let sprite = new Sprite({
     numberOfFrames: 10,
     ticksPerFrame: 4,
@@ -93,15 +98,15 @@ let sprite = new Sprite({
 export function moveProses(move) {
     switch (move) {
         case 'right' :
-            frame = 200;
+            person.person === 'timon'  ? frame = 200 : frame = 190;
             moveState.state = 'right';
             break;
         case 'left' :
-            frame = 189;
+            person.person === 'timon'  ? frame = 189 : frame = 190;
             moveState.state = 'left';
             break;
         case 'up' :
-            frame = 190;
+            person.person === 'timon'  ? frame = 190 : frame = 190;
             moveState.state = 'stop';
             break
     }
