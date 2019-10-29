@@ -48,7 +48,7 @@ export function moveUp() {
 export function obstacleMove(move) {
     switch (move) {
         case 'ArrowLeft':
-            for (let item in obstacle) { obstacle[item] -=10; }
+            for (let item in obstacle) { obstacle[item] -=1; }
             break;
         case 'ArrowRight' :
             for (let item in obstacle) { obstacle[item] -=1; }
@@ -68,7 +68,9 @@ function draw() {
         }
         if(movePersonRight) {
             if(!moveDovn){
-                person.x += 1;
+                if (person.x > 0 && person.x <= winWidth){
+                    person.x += 1;
+                }
                 person.x > winWidth ? obstacleMove('ArrowRight') : '';
             }
         }

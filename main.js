@@ -3,6 +3,8 @@ import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveSta
 
 let frame = 190;
 
+let backgroundOffset = 0;
+
 class Sprite {
     constructor(options) {
         this.frameIndex = 0;
@@ -19,65 +21,27 @@ class Sprite {
             (this.frameIndex < this.numberOfFrames - 1) ? this.frameIndex++ : this.frameIndex = 0;
         }
     }
-    personX(){
-        for (let item in obstacle){
-            if(person.x < winWidth){
-                if(person.x >= obstacle[item] - frame){
-                    this.move(false);
-                    return obstacle[item] - frame;
-                } else {
-                    this.move(true);
-                    return person.x
-                }
-            } else if (person.x > winWidth){
-                this.move(true);
-                if(person.x >= obstacle[item] - frame){
-                    this.move(false);
-                    return obstacle[item] - frame;
-                } else {
-                    this.move(true);
-                    return winWidth
-                }
-            }
-        }
-    }
-    move(move){
-        let backgroundOffset = (person.x > 0 && person.x < img.width) ? (person.x > winWidth ? winWidth : person.x) : 0;
-        if(move && moveState.state !== 'stop'){
-            context.translate(-backgroundOffset, 0);
-            context.drawImage(img, 0, 0);
-            context.drawImage(img, img.width, 0);
-            for (let item in obstacle){
-                context.fillRect(obstacle[item], 490, 100, 100);
-            }
-            context.styleSheets = '#964b00';
-            context.translate(backgroundOffset, 0);
-        } else if(move){
-            context.translate(-backgroundOffset, 0);
-            context.drawImage(img, 0, 0);
-            context.drawImage(img, img.width, 0);
-            for (let item in obstacle){
-                context.fillRect(obstacle[item], 490, 100, 100);
-            }
-            context.styleSheets = '#964b00';
-            context.translate(backgroundOffset, 0);
-        } else if (moveState.state === 'stop'){
-            context.drawImage(img, 0, 0);
-            context.drawImage(img, img.width, 0);
-            for (let item in obstacle){
-                context.fillRect(obstacle[item], 490, 100, 100);
-            }
-            context.styleSheets = '#964b00';
-        }
-    }
     render() {
-        this.personX()
+        if (person.x < img.width && person.x > 0){
+            if(person.x > winWidth && moveState.state === 'right'){
+                backgroundOffset += 5
+
+            } else  if (moveState.state === 'left') {
+                if(backgroundOffset > 0){
+                    backgroundOffset -= 5;
+                }
+            }
+        } else {
+            backgroundOffset = 0
+        }
+        context.translate(-backgroundOffset, 0);
         context.drawImage(img, 0, 0);
         context.drawImage(img, img.width, 0);
         for (let item in obstacle){
             context.fillRect(obstacle[item], 490, 100, 100);
         }
-        console.log(person.y)
+        context.styleSheets = '#964b00';
+        context.translate(backgroundOffset, 0);
         context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x + person.jumpHeight, person.y, frame, spritePerson.height)
     }
     start() {
