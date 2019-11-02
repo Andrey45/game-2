@@ -44,7 +44,6 @@ class Sprite {
         for (let item in worms.worms){
             context.drawImage(wormsImg, worms.worms[item].x, worms.worms[item].y, 100, 100)
         }
-        //context.drawImage(wormsImg, worms.worms, worms.y, 100, 100)
         context.styleSheets = '#964b00';
         context.translate(backgroundOffset, 0);
         context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
@@ -84,4 +83,27 @@ export function moveProses(move) {
 }
 
 move();
+let store_server;
+function finish() {
+    let server = JSON.parse(localStorage.getItem('server'));
 
+    store_server = server;
+
+    let result = 1000 - person.time + person.glass * 10
+
+    if(server === null){
+        localStorage.setItem('server', JSON.stringify([{
+            name: localStorage.getItem('name'),
+            person: localStorage.getItem('person'),
+            result: result
+        }]))
+    } else {
+        store_server.push({
+            name: localStorage.getItem('name'),
+            person: localStorage.getItem('person'),
+            result: result
+        })
+        localStorage.setItem('server', JSON.stringify(store_server));
+    }
+    person_store = person;
+}

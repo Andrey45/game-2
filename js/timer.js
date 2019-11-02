@@ -1,3 +1,4 @@
+import {person} from './constants.js'
 (function(){
 
     const secs = document.getElementById('time');
@@ -19,6 +20,7 @@
                 M = '00';
             }
         }
+        person.time += 1;
         secs.innerText = M+':'+S
         //Тикает всё через одну функцию, раз в секунду.
     },1000);

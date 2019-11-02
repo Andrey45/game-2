@@ -47,12 +47,14 @@ function draw() {
     if(movePersonLeft) {
         if(!moveDovn){
             if (person.x > 0){
+                person.y  = 400;
                 person.x -= 1;
             }
         }
     }
     if(movePersonRight) {
         if(!moveDovn){
+            person.y  = 400;
             person.x += 1;
         }
     }
@@ -71,6 +73,8 @@ function draw() {
     }
     for (let i in worms.worms){
         if (person.x > worms.worms[i].x - 100 && person.x < worms.worms[i].x + 100  && person.y < worms.worms[i].y){
+            person.y = 280
+            person.glass += 1;
             worms.worms[i].y = 800
         }
     }
