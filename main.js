@@ -1,5 +1,5 @@
-import { move, moveUp } from './js/move.js';
-import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState } from  './js/constants.js'
+import { move } from './js/move.js';
+import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState, wormsImg, worms, obstacleImg } from  './js/constants.js'
 
 let frame = 190;
 
@@ -22,27 +22,34 @@ class Sprite {
         }
     }
     render() {
+        console.log(person.x)
         if (person.x < img.width && person.x > 0){
             if(person.x > winWidth && moveState.state === 'right'){
-                backgroundOffset += 5
+                backgroundOffset += 3.2
 
             } else  if (moveState.state === 'left') {
                 if(backgroundOffset > 0){
-                    backgroundOffset -= 5;
+                    backgroundOffset -= 3.2;
                 }
             }
         } else {
-            backgroundOffset = 0
+
         }
         context.translate(-backgroundOffset, 0);
         context.drawImage(img, 0, 0);
         context.drawImage(img, img.width, 0);
         for (let item in obstacle){
-            context.fillRect(obstacle[item], 490, 100, 100);
+            context.drawImage(obstacleImg, obstacle[item], 400, 200, 200);
         }
+        for (let item in worms.worms){
+            context.drawImage(wormsImg, worms.worms[item].x, worms.worms[item].y, 100, 100)
+        }
+        //context.drawImage(wormsImg, worms.worms, worms.y, 100, 100)
         context.styleSheets = '#964b00';
         context.translate(backgroundOffset, 0);
-        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x + person.jumpHeight, person.y, frame, spritePerson.height)
+        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
+
+
     }
     start() {
         let loop = () => {
@@ -77,4 +84,4 @@ export function moveProses(move) {
 }
 
 move();
-moveUp();
+

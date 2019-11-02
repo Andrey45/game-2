@@ -1,6 +1,6 @@
 import { moveProses } from '../main.js'
 
-import { person, spritePerson, obstacle, winWidth } from './constants.js'
+import { person, spritePerson, obstacle, winWidth, worms } from './constants.js'
 
 let jumpLength = 250;
 let moveGamp = false;
@@ -32,67 +32,30 @@ export function move() {
 }
 document.addEventListener('keyup', (event)=> {
     if (event.key === 'ArrowLeft'){
-        moveProses('up')
+        moveProses('up');
         spritePerson.src = person.person === 'timon' ? './assets/sprite/tim.png' : './assets/sprite/Pumba.png';
         movePersonLeft = false
     }
     if (event.key === 'ArrowRight'){
-        moveProses('up')
+        moveProses('up');
         spritePerson.src = person.person === 'timon' ? './assets/sprite/tim.png' : './assets/sprite/Pumba.png';
         movePersonRight = false
     }
 })
-export function moveUp() {
-
-}
-export function obstacleMove(move) {
-    switch (move) {
-        case 'ArrowLeft':
-            for (let item in obstacle) { obstacle[item] -=1; }
-            break;
-        case 'ArrowRight' :
-            for (let item in obstacle) { obstacle[item] -=1; }
-            break;
-    }
-}
 
 function draw() {
-    if (person.x < obstacle.obstacle1 - 200 || person.x > obstacle.obstacle1) {
-        if(movePersonLeft) {
-            if(!moveDovn){
-                if (person.x > 0){
-                    person.x -= 1;
-                }
-                person.x > winWidth ? obstacleMove('ArrowLeft') : '';
-            }
-        }
-        if(movePersonRight) {
-            if(!moveDovn){
-                if (person.x > 0 && person.x <= winWidth){
-                    person.x += 1;
-                }
-                person.x > winWidth ? obstacleMove('ArrowRight') : '';
-            }
-        }
-    } else {
-        if(movePersonLeft && person.y < 390) {
-            if(!moveDovn){
-                if (person.x > 0){
-                    person.x -= 1;
-                    person.y = 290
-                }
-                person.x > winWidth ? obstacleMove('ArrowLeft') : '';
-            }
-        }
-        if(movePersonRight && person.y < 390) {
-            if(!moveDovn){
-                person.x += 1;
-                person.y = 290;
-                person.x > winWidth ? obstacleMove('ArrowRight') : '';
+    if(movePersonLeft) {
+        if(!moveDovn){
+            if (person.x > 0){
+                person.x -= 1;
             }
         }
     }
-
+    if(movePersonRight) {
+        if(!moveDovn){
+            person.x += 1;
+        }
+    }
     if(moveGamp){
         if(moveDovn){
             person.y = 400;
@@ -100,12 +63,15 @@ function draw() {
             moveGamp = false;
         } else {
             person.y -= 2;
-            person.jumpHeight = 4 * jumpLength * Math.sin(Math.PI * person.y * jumpLength);
             if (person.y < jumpLength) {
                 person.y  = 400;
                 moveGamp = false;
-                person.jumpHeight = 0;
             }
+        }
+    }
+    for (let i in worms.worms){
+        if (person.x > worms.worms[i].x - 100 && person.x < worms.worms[i].x + 100  && person.y < worms.worms[i].y){
+            worms.worms[i].y = 800
         }
     }
     if(moveDovn){

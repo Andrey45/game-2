@@ -29,9 +29,34 @@ let obstacle = {
 };
 
 let worms = {
-    worms: obstacle.obstacle1 - 50,
-    y: 290
+    worms: {
+        worms1: {
+            x: obstacle.obstacle1 + 50,
+            y: 380
+        },
+        worms2: {
+            x: obstacle.obstacle3 + 50,
+            y: 380
+        },
+        worms3: {
+            x: obstacle.obstacle5 + 50,
+            y: 380
+        },
+        worms4: {
+            x: obstacle.obstacle7 + 50,
+            y: 380
+        },
+        worms5: {
+            x: obstacle.obstacle9 + 50,
+            y: 380
+        },
+    },
 };
+let wormsImg = new Image()
+wormsImg.src = './assets/sprite/caterpillar.gif'
+
+let obstacleImg = new Image()
+obstacleImg.src = './assets/sprite/kochka.png'
 
 let moveState = {state: 'stop'};
 // СПРАЙТ
@@ -56,5 +81,6 @@ export {
     canvas, context,
     spritePerson,
     obstacle,
-    moveState
+    moveState,
+    wormsImg, worms, obstacleImg
 };
