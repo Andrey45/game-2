@@ -1,6 +1,8 @@
 import { move } from './js/move.js';
-import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState, wormsImg, worms, obstacleImg } from  './js/constants.js'
+import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState, wormsImg, worms, obstacleImg, giena } from  './js/constants.js'
 
+let imgGiena = new Image()
+imgGiena.src = './assets/sprite/giena.png';
 let frame = 190;
 
 let backgroundOffset = 0;
@@ -22,7 +24,6 @@ class Sprite {
         }
     }
     render() {
-        console.log(person.x)
         if (person.x < img.width && person.x > 0){
             if(person.x > winWidth && moveState.state === 'right'){
                 backgroundOffset += 3.2
@@ -33,7 +34,7 @@ class Sprite {
                 }
             }
         } else {
-
+            finish()
         }
         context.translate(-backgroundOffset, 0);
         context.drawImage(img, 0, 0);
@@ -45,9 +46,9 @@ class Sprite {
             context.drawImage(wormsImg, worms.worms[item].x, worms.worms[item].y, 100, 100)
         }
         context.styleSheets = '#964b00';
+        context.drawImage(imgGiena, giena.x, giena.y, 100, 100)
         context.translate(backgroundOffset, 0);
         context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
-
 
     }
     start() {
@@ -83,13 +84,13 @@ export function moveProses(move) {
 }
 
 move();
-let store_server;
-function finish() {
+let store_server = [];
+export function finish() {
     let server = JSON.parse(localStorage.getItem('server'));
 
     store_server = server;
 
-    let result = 1000 - person.time + person.glass * 10
+    let result = 1000 - person.time + person.glass * 10;
 
     if(server === null){
         localStorage.setItem('server', JSON.stringify([{
@@ -105,5 +106,5 @@ function finish() {
         })
         localStorage.setItem('server', JSON.stringify(store_server));
     }
-    person_store = person;
+    location.href = './endgame/index.html'
 }

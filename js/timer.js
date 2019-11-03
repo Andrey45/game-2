@@ -1,11 +1,27 @@
 import {person} from './constants.js'
+import { finish } from '../main.js'
 (function(){
 
     const secs = document.getElementById('time');
+    const hp = document.getElementById('hp');
+    const score = document.getElementById('score')
     let S = '00', M = '00';
 
     setInterval(function(){
         //Плюсик перед строкой преобразует его в число
+
+        if (person.hp > 100){
+            person.hp = 100
+        }
+        if(person.hp === 0){
+            finish()
+        }
+
+        score.innerText = person.glass;
+        person.hp -= 1;
+
+        hp.innerText = person.hp;
+
         S = +S +1;
         //Если результат меньше 10, прибавляем впереди строку '0'
         if( S < 10 ) { S = '0' + S; }

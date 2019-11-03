@@ -25,8 +25,14 @@ let obstacle = {
     obstacle7: Math.random() * (3800 - 3200) + 3200,
     obstacle8: Math.random() * (4200 - 3800) + 3800,
     obstacle9: Math.random() * (4800 - 4200) + 4200,
-    obstacle10:Math.random() * (5200 - 4800) + 4800,
+    obstacle10:Math.random() * (4800 - 4800) + 4800,
 };
+
+let giena = {
+    x: Math.random() * (3800 - 3200) + 3200,
+    y: 500
+}
+
 
 let worms = {
     worms: {
@@ -82,5 +88,6 @@ export {
     spritePerson,
     obstacle,
     moveState,
-    wormsImg, worms, obstacleImg
+    wormsImg, worms, obstacleImg,
+    giena
 };

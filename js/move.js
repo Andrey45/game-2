@@ -1,12 +1,14 @@
 import { moveProses } from '../main.js'
 
-import { person, spritePerson, obstacle, winWidth, worms } from './constants.js'
+import { person, spritePerson, obstacle, winWidth, worms, giena } from './constants.js'
 
-let jumpLength = 250;
+let jumpLength = 280;
 let moveGamp = false;
 let movePersonRight = false;
 let movePersonLeft = false;
 let moveDovn = false;
+
+
 
 export function move() {
     document.addEventListener('keydown', (event) => {
@@ -43,18 +45,49 @@ document.addEventListener('keyup', (event)=> {
     }
 })
 
+let gienaStart = giena.x;
+let gienaLeft = true;
+let gienaRight = false;
+
+function moveGiena() {
+    if (gienaLeft){
+        if (giena.x < gienaStart - 500){
+            gienaRight = true
+            gienaLeft = false
+        }else {
+            giena.x -= 1
+        }
+    }
+    if (gienaRight){
+        if (giena.x > gienaStart + 500){
+            gienaRight = false
+            gienaLeft = true
+        } else {
+            giena.x += 1
+        }
+    }
+    console.log(giena.x)
+}
+
 function draw() {
+
+    moveGiena()
+
     if(movePersonLeft) {
         if(!moveDovn){
             if (person.x > 0){
-                person.y  = 400;
+                if (!moveGamp){
+                    person.y  = 400;
+                }
                 person.x -= 1;
             }
         }
     }
     if(movePersonRight) {
         if(!moveDovn){
-            person.y  = 400;
+            if (!moveGamp){
+                person.y  = 400;
+            }
             person.x += 1;
         }
     }
@@ -71,13 +104,23 @@ function draw() {
             }
         }
     }
-    for (let i in worms.worms){
-        if (person.x > worms.worms[i].x - 100 && person.x < worms.worms[i].x + 100  && person.y < worms.worms[i].y){
+
+    for(let i in obstacle){
+        if(person.x > obstacle[i] - 100 && person.x < obstacle[i] + 50  && person.y < 380){
+            moveGamp = false;
             person.y = 280
-            person.glass += 1;
-            worms.worms[i].y = 800
         }
     }
+    for (let i in worms.worms){
+        if (person.x > worms.worms[i].x - 100 && person.x < worms.worms[i].x + 50  && person.y < worms.worms[i].y){
+            moveGamp = false;
+            person.y = 280;
+            person.hp += person.hp < 100 ? 5 : 0;
+            person.glass += 1;
+            worms.worms[i].y = -800
+        }
+    }
+
     if(moveDovn){
         person.y = 800
     }
