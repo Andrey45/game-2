@@ -1,6 +1,6 @@
 import { moveProses } from '../main.js'
 
-import { person, spritePerson, obstacle, winWidth, worms, giena } from './constants.js'
+import { person, spritePerson, obstacle, winWidth, worms, giena, giena2 } from './constants.js'
 
 let jumpLength = 280;
 let moveGamp = false;
@@ -51,22 +51,23 @@ let gienaRight = false;
 
 function moveGiena() {
     if (gienaLeft){
-        if (giena.x < gienaStart - 500){
-            gienaRight = true
+        if (giena.x < gienaStart - 500 && giena2.x < gienaStart - 500){
+            gienaRight = true;
             gienaLeft = false
         }else {
-            giena.x -= 1
+            giena.x -= 1;
+            giena2.x -= 1
         }
     }
     if (gienaRight){
-        if (giena.x > gienaStart + 500){
+        if (giena.x > gienaStart + 500 && giena2.x > gienaStart + 500){
             gienaRight = false
             gienaLeft = true
         } else {
             giena.x += 1
+            giena2.x += 1
         }
     }
-    console.log(giena.x)
 }
 
 function draw() {

@@ -31,7 +31,11 @@ let obstacle = {
 let giena = {
     x: Math.random() * (3800 - 3200) + 3200,
     y: 500
-}
+};
+let giena2 = {
+    x: Math.random() * (2800 - 1200) + 1200,
+    y: 500
+};
 
 
 let worms = {
@@ -89,5 +93,5 @@ export {
     obstacle,
     moveState,
     wormsImg, worms, obstacleImg,
-    giena
+    giena, giena2
 };

@@ -1,5 +1,6 @@
 import {person} from './constants.js'
 import { finish } from '../main.js'
+import {giena} from "./constants.js";
 (function(){
 
     const secs = document.getElementById('time');

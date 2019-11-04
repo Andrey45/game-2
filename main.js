@@ -1,5 +1,5 @@
 import { move } from './js/move.js';
-import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState, wormsImg, worms, obstacleImg, giena } from  './js/constants.js'
+import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState, wormsImg, worms, obstacleImg, giena, giena2 } from  './js/constants.js'
 
 let imgGiena = new Image()
 imgGiena.src = './assets/sprite/giena.png';
@@ -24,6 +24,11 @@ class Sprite {
         }
     }
     render() {
+
+        if (person.x >= giena.x -10 && person.x <= giena.x + 10 || person.x >= giena2.x -10 && person.x <= giena2.x + 10){
+            person.hp -= 10
+        }
+
         if (person.x < img.width && person.x > 0){
             if(person.x > winWidth && moveState.state === 'right'){
                 backgroundOffset += 3.2
@@ -34,7 +39,7 @@ class Sprite {
                 }
             }
         } else {
-            finish()
+            //finish()
         }
         context.translate(-backgroundOffset, 0);
         context.drawImage(img, 0, 0);
@@ -47,6 +52,7 @@ class Sprite {
         }
         context.styleSheets = '#964b00';
         context.drawImage(imgGiena, giena.x, giena.y, 100, 100)
+        context.drawImage(imgGiena, giena2.x, giena2.y, 100, 100)
         context.translate(backgroundOffset, 0);
         context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
 
@@ -108,3 +114,9 @@ export function finish() {
     }
     location.href = './endgame/index.html'
 }
+$('#but').keypress(()=>{
+    let media = new Audio();
+    media.src = './assets/fonovaya.mp3';
+    media.autoplay = true;
+})
+
