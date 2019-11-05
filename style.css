@@ -8,7 +8,18 @@ body{
 .canvas{
     position: absolute;
 }
-
+#idi{
+    display: none;
+}
+img{
+    position: absolute;
+    z-index: 1;
+    top: 25px;
+    width: 25px;
+    height: 25px;
+    right: 100px;
+    cursor: pointer;
+}
 .topUI {
     position: absolute;
     z-index: 1000; /* need this cause clip-path changes stack context */

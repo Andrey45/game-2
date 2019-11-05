@@ -114,9 +114,18 @@ export function finish() {
     }
     location.href = './endgame/index.html'
 }
-$('#but').keypress(()=>{
-    let media = new Audio();
+let media = new Audio();
+$('#i').click(()=>{
+    $('#i').css({display: 'none'}) ;
+    $('#idi').css({display: 'block'});
     media.src = './assets/fonovaya.mp3';
     media.autoplay = true;
 })
+$('#idi').click(()=>{
+    $('#i').css({display: 'block'}) ;
+    $('#idi').css({display: 'none'});
+    media.src = ''
+})
+
+
 
