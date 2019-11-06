@@ -26,21 +26,21 @@ class Sprite {
     render() {
 
         if (person.x >= giena.x -10 && person.x <= giena.x + 10 || person.x >= giena2.x -10 && person.x <= giena2.x + 10){
-            person.hp -= 10
+            person.hp -= 10;
         }
 
-        if (person.x < img.width && person.x > 0){
-            if(person.x > winWidth && moveState.state === 'right'){
-                backgroundOffset += 3.2
-
-            } else  if (moveState.state === 'left') {
+        if (person.x < img.width && person.x > 0 && person.x > winWidth){
+            if(person.x > winWidth && moveState.state === 'right'){ backgroundOffset += 3.2}
+            else  if (moveState.state === 'left') {
                 if(backgroundOffset > 0){
                     backgroundOffset -= 3.2;
                 }
             }
-        } else {
-            //finish()
         }
+        // Если позиция игрока равна или больше длинны фона то это финишь
+        person.x >= img.width ? finish() : '';
+
+        // Движение фона и объекточ на нем
         context.translate(-backgroundOffset, 0);
         context.drawImage(img, 0, 0);
         context.drawImage(img, img.width, 0);
@@ -48,12 +48,14 @@ class Sprite {
             context.drawImage(obstacleImg, obstacle[item], 400, 200, 200);
         }
         for (let item in worms.worms){
-            context.drawImage(wormsImg, worms.worms[item].x, worms.worms[item].y, 100, 100)
+            context.drawImage(wormsImg, worms.worms[item].x, worms.worms[item].y, 100, 100);
         }
         context.styleSheets = '#964b00';
-        context.drawImage(imgGiena, giena.x, giena.y, 100, 100)
-        context.drawImage(imgGiena, giena2.x, giena2.y, 100, 100)
+        context.drawImage(imgGiena, giena.x, giena.y, 100, 100);
+        context.drawImage(imgGiena, giena2.x, giena2.y, 100, 100);
         context.translate(backgroundOffset, 0);
+
+        // Отрисовка персонажа отдельно от двидения фона
         context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
 
     }
@@ -71,26 +73,28 @@ let sprite = new Sprite({
     numberOfFrames: 10,
     ticksPerFrame: 4,
 });
-
+// Определение в какую сторону производитсься движение
 export function moveProses(move) {
     switch (move) {
         case 'right' :
             person.person === 'timon'  ? frame = 200 : frame = 190;
-            moveState.state = 'right';
+            moveState.state = move;
             break;
         case 'left' :
             person.person === 'timon'  ? frame = 189 : frame = 190;
-            moveState.state = 'left';
+            moveState.state = move;
             break;
         case 'up' :
             person.person === 'timon'  ? frame = 190 : frame = 190;
-            moveState.state = 'stop';
+            moveState.state = move;
             break
     }
 }
 
 move();
+
 let store_server = [];
+
 export function finish() {
     let server = JSON.parse(localStorage.getItem('server'));
 
@@ -114,18 +118,3 @@ export function finish() {
     }
     location.href = './endgame/index.html'
 }
-let media = new Audio();
-$('#i').click(()=>{
-    $('#i').css({display: 'none'}) ;
-    $('#idi').css({display: 'block'});
-    media.src = './assets/fonovaya.mp3';
-    media.autoplay = true;
-})
-$('#idi').click(()=>{
-    $('#i').css({display: 'block'}) ;
-    $('#idi').css({display: 'none'});
-    media.src = ''
-})
-
-
-

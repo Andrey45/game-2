@@ -1,6 +1,5 @@
 localStorage.setItem('name', 'ddddd');
 localStorage.setItem('person', 'pumba');
-
 // ПЕРСОНАЖ
 let person = {
     x: 20,
@@ -12,9 +11,9 @@ let person = {
     time: 0,
     jumpHeight: 0
 };
-
+// Вывод имя игрока
 document.getElementById('name').innerText = person.name;
-
+// Рандобное расположение пребядствий
 let obstacle = {
     obstacle1: Math.random() * (600 - 200) + 200,
     obstacle2: Math.random() * (1200 - 600) + 600,
@@ -27,7 +26,7 @@ let obstacle = {
     obstacle9: Math.random() * (4800 - 4200) + 4200,
     obstacle10:Math.random() * (4800 - 4800) + 4800,
 };
-
+// Гиены тоже рандомно
 let giena = {
     x: Math.random() * (3800 - 3200) + 3200,
     y: 500
@@ -36,8 +35,7 @@ let giena2 = {
     x: Math.random() * (2800 - 1200) + 1200,
     y: 500
 };
-
-
+// Позиция червяков в зависимости от позиции препядствия на котором он расспологаеться, жесткая привязка
 let worms = {
     worms: {
         worms1: {
@@ -62,12 +60,13 @@ let worms = {
         },
     },
 };
+// Изображение червя
 let wormsImg = new Image()
-wormsImg.src = './assets/sprite/caterpillar.gif'
-
+wormsImg.src = './assets/sprite/caterpillar.gif';
+// Изображение препядствия
 let obstacleImg = new Image()
-obstacleImg.src = './assets/sprite/kochka.png'
-
+obstacleImg.src = './assets/sprite/kochka.png';
+// Состояние персонажа
 let moveState = {state: 'stop'};
 // СПРАЙТ
 let spritePerson = new Image();
@@ -79,12 +78,12 @@ img.src ='./assets/bacg.jpg';
 // CANVAS
 let canvas = document.getElementById("canvas"),
     context = canvas.getContext("2d");
-
+// Очень важно определить размер канваса по размеру изображения после загрузки фона ОЧЕНЬ ВАЖНО
 img.onload = () => {
     canvas.width = img.width;
     canvas.height = img.height;
 };
-// TIMER
+// Экспорт
 export {
     img, winWidth,
     person,

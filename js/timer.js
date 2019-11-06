@@ -9,16 +9,18 @@ import {giena} from "./constants.js";
     let S = '00', M = '00';
 
     setInterval(function(){
-        //Плюсик перед строкой преобразует его в число
-
+        // Чтобы небыло больше 100 хп
         if (person.hp > 100){
             person.hp = 100
         }
+        // Если меньше или равно то финишь
         if(person.hp === 0){
             finish()
         }
 
+        // Колличество гусениц
         score.innerText = person.glass;
+        // Каждую секунду минус 1 хп
         person.hp -= 1;
 
         hp.innerText = person.hp;
@@ -37,6 +39,7 @@ import {giena} from "./constants.js";
                 M = '00';
             }
         }
+        //Время игры
         person.time += 1;
         secs.innerText = M+':'+S
         //Тикает всё через одну функцию, раз в секунду.
