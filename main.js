@@ -38,7 +38,7 @@ class Sprite {
             }
         }
         // Если позиция игрока равна или больше длинны фона то это финишь
-        person.x >= img.width ? finish() : '';
+        moveState.state === 'right' && person.x >= img.width ? finish() : '';
 
         // Движение фона и объекточ на нем
         context.translate(-backgroundOffset, 0);
@@ -96,25 +96,13 @@ move();
 let store_server = [];
 
 export function finish() {
-    let server = JSON.parse(localStorage.getItem('server'));
-
-    store_server = server;
 
     let result = 1000 - person.time + person.glass * 10;
 
-    if(server === null){
-        localStorage.setItem('server', JSON.stringify([{
-            name: localStorage.getItem('name'),
-            person: localStorage.getItem('person'),
-            result: result
-        }]))
-    } else {
-        store_server.push({
-            name: localStorage.getItem('name'),
-            person: localStorage.getItem('person'),
-            result: result
-        })
-        localStorage.setItem('server', JSON.stringify(store_server));
-    }
+    localStorage.setItem('server', JSON.stringify({
+        name: localStorage.getItem('name'),
+        score: result
+    }));
+
     location.href = './endgame/index.html'
 }

@@ -1,5 +1,3 @@
-localStorage.setItem('name', 'ddddd');
-localStorage.setItem('person', 'pumba');
 // ПЕРСОНАЖ
 let person = {
     x: 20,
