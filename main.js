@@ -1,29 +1,40 @@
 import { move } from './js/move.js';
 import { img, person, canvas, context, spritePerson, winWidth, obstacle, moveState, wormsImg, worms, obstacleImg, giena, giena2 } from  './js/constants.js'
 
-let imgGiena = new Image()
+let imgGiena = new Image();
 imgGiena.src = './assets/sprite/giena.png';
+
 let frame = 190;
 
 let backgroundOffset = 0;
 
 class Sprite {
-    constructor(options) {
-        this.frameIndex = 0;
-        this.tickCount = 0;
-        this.ticksPerFrame = options.ticksPerFrame || 0;
-        this.numberOfFrames = options.numberOfFrames || 1;
+    constructor(props){
+        this.state = {
+            tickCount: 0,
+            frameIndex: 0,
+            ticksPerFrame: props.ticksPerFrame || 0,
+            numberOfFrames: props.numberOfFrames || 1
+        };
+
         this.start();
     }
     update() {
-        this.tickCount++;
-        if (this.tickCount > this.ticksPerFrame) {
-            this.tickCount = 0;
+        let { tickCount, ticksPerFrame, frameIndex, numberOfFrames,  } = this.state;
 
-            (this.frameIndex < this.numberOfFrames - 1) ? this.frameIndex++ : this.frameIndex = 0;
+        this.state.tickCount++;
+
+        if (tickCount > ticksPerFrame) {
+
+            this.state.tickCount = 0;
+
+            (frameIndex < numberOfFrames - 1) ? this.state.frameIndex++ : this.state.frameIndex = 0;
         }
     }
+
     render() {
+
+        let {frameIndex} = this.state;
 
         if (person.x >= giena.x -10 && person.x <= giena.x + 10 || person.x >= giena2.x -10 && person.x <= giena2.x + 10){
             person.hp -= 10;
@@ -56,11 +67,11 @@ class Sprite {
         context.translate(backgroundOffset, 0);
 
         // Отрисовка персонажа отдельно от двидения фона
-        context.drawImage(spritePerson, this.frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
+        context.drawImage(spritePerson, frameIndex * frame, 0, frame, spritePerson.height, person.x < winWidth ? person.x : winWidth, person.y, frame, spritePerson.height)
 
     }
     start() {
-        let loop = () => {
+        const loop = () => {
             this.update();
             this.render();
             window.requestAnimationFrame(loop);
