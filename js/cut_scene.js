@@ -1,48 +1,21 @@
-document.addEventListener('DOMContentLoaded', function() {
-    function slider() {
-        let current = 0,
-            i,
-            slider = document.querySelector('[data-js="slider"]'),
-            allImages =  slider.querySelectorAll('img'),
-            imgWidth = Math.ceil(100 / allImages.length),
-            sliderWidth = allImages.length * 100;
-        slider.style.width = sliderWidth + '%';
+const slider = () => {
+    let current = 0;
+    let slider = document.querySelector('[data-js="slider"]');
+    let allImages =  slider.querySelectorAll('img');
+    let imgWidth = Math.ceil(100 / allImages.length);
 
-        for(i = 0; i <= allImages.length - 1; i++) {
-            allImages[i].style.width = imgWidth + '%';
-        }
+    slider.style.width = `${allImages.length * 100}%`;
 
-        function animateLeft(cur) {
-            let i = 0,
-                time = 50;
-            let animate = setInterval(function() {
-                if(i <= imgWidth) {
-                    allImages[cur].style.marginLeft = "-" + i  + "%";
-                    i++;
-                } else {
-                    clearInterval(animate);
-                }
-            }, time);
-        }
+    allImages.forEach(item => item.style.width = `${imgWidth}%`);
 
-        document.addEventListener('keypress', function(event) {
-            if (event.code === 'Space') {
-                window.location.href = 'game.html';
-            }
-        });
+    const animateLeft = (cur, callback) => {
+        let i = 0;
+        setInterval(() => i <= imgWidth ? (allImages[cur].style.marginLeft = `-${i}%`) && i++ : clearInterval(), 50);
+        callback();
+    };
 
-        setInterval(function () {
-            if(current <= allImages.length - 2) {
-                animateLeft(current);
-                current++;
-            }
+    setInterval(() => current <= allImages.length - 2 ? animateLeft(current, () => current++) : window.location.href = "game.html", 3000);
+};
 
-            else {
-                //переход на страницу игры
-                window.location.href = "game.html";
-            }
-        }, 3000);
-    } // end
-    slider();
-});
-
+document.addEventListener('DOMContentLoaded', () => slider());
+document.addEventListener('keypress', e => e.code === 'Space' ? window.location.href = 'game.html' : '');

@@ -8,7 +8,7 @@ class Authorization {
 
     personSelect(e){
         this.state.person = e.target.getAttribute('alt');
-        $('img').parent('.card').removeClass('valid');
+        document.querySelectorAll('img').forEach(item => item.parentNode.classList.remove('valid'));
         e.currentTarget.classList.add('valid')
     }
 
@@ -30,9 +30,8 @@ class Authorization {
 
 let Auth = new Authorization();
 //Изменение имя игрока
-let input = document.getElementById('name');
-
-input.oninput = e => Auth.currentValue(e);
-//События клика
-$('.card').click(e => Auth.personSelect(e));
-$('button').click(e => Auth.auth());
+document.getElementById('name').oninput = e => Auth.currentValue(e);
+//События клика на карточку
+document.querySelectorAll('.card').forEach(item => item.addEventListener("click", e => Auth.personSelect(e)));
+//Событие клика на кнопку начать
+document.querySelector('.button').addEventListener("click", e => Auth.auth());
