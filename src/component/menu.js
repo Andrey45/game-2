@@ -7,7 +7,7 @@ class Authorization {
     }
 
     personSelect(e){
-        this.state.person = e.target.getAttribute('alt');
+        this.state.person = e.target.alt;
         document.querySelectorAll('img').forEach(item => item.parentNode.classList.remove('valid'));
         e.currentTarget.classList.add('valid')
     }
@@ -18,10 +18,10 @@ class Authorization {
 
     auth(){
         let { name, person } = this.state;
-        if(name.length && person.length){
+        if(name.length && person){
             localStorage.setItem('name', name);
             localStorage.setItem('person', person);
-            location.href = "cut-scene.html"
+            location.href = "page/Slider/index.html"
         } else {
             document.getElementById('invalid').innerText = 'Введите название игрока и выберите персонажа!';
         }
@@ -30,7 +30,7 @@ class Authorization {
 
 let Auth = new Authorization();
 //Изменение имя игрока
-document.getElementById('name').oninput = e => Auth.currentValue(e);
+document.querySelector('.name').oninput = e => Auth.currentValue(e);
 //События клика на карточку
 document.querySelectorAll('.card').forEach(item => item.addEventListener("click", e => Auth.personSelect(e)));
 //Событие клика на кнопку начать
